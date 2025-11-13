@@ -1,5 +1,5 @@
 //import * as WebBrowser from 'expo-web-browser';
-import {FlatList, ListRenderItem, Text, View} from "react-native"
+import {Button, FlatList, ListRenderItem, StyleSheet, Text, View} from "react-native"
 import {Image} from "expo-image";
 
 
@@ -7,8 +7,12 @@ interface Pizzaria {
     id: number;
     nome: string;
     descricao: string;
-        valor: number;
+    valor: number;
     imagem: string;
+}
+
+const onClick = () => {
+    alert("Adicionando...")
 }
 
 export default function Index() {
@@ -19,7 +23,7 @@ export default function Index() {
             nome: "Margherita",
             descricao: "Molho de tomate, mussarela, manjericão fresco e azeite de oliva.",
             valor: 39.90,
-            imagem: "https://static.ifood-static.com.br/image/upload/t_medium/pratos/89e3c536-9a44-4b36-a6d7-e9b45b5c21a8/202012021046_Gk6s_.jpeg",
+            imagem: "https://plus.unsplash.com/premium_photo-1673439306780-2b457e65da70?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         },
         {
             id: 2,
@@ -88,32 +92,68 @@ export default function Index() {
 
     const render_list_item: ListRenderItem<Pizzaria> = ({item}) => {
         return (
-            <View>
+            <View style={styles.card}>
                 {/* CARD HEADER */}
-                <View>
-                    <Image source={item.imagem}/>
+                <View style={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    gap: 24
+                }}>
+                    <Image source={item.imagem} style={{width: 100, height: 100, borderRadius: 20}}/>
+                    <View style={{ flexShrink: 1 }}>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: "bold",
+                            color: "white",
+                            marginBottom: 4,
+                            flexWrap: "wrap",
+                        }}>
+                            {item.nome}
+                        </Text>
+                        <Text style={{
+                            fontSize: 14,
+                            fontWeight: "normal",
+                            color: "white",
+                            marginBottom: 4,
+                            flexWrap: "wrap",
+                        }}>
+                            {item.descricao}
+                        </Text>
+                    </View>
                 </View>
-                {/* CARD BODY */}
+                <View
+                    style={{
+                        height: 1,
+                        backgroundColor: "#4e1b4e",
+                        marginVertical: 8,
+                    }}
+                />
                 <View>
-                    <Text>
-                        {item.nome}
-                    </Text>
-                    <hr/>
-                    <Text>
-                        {item.descricao}
-                    </Text>
-                </View>
-                {/* CARD FOOTER */}
-                <View>
-
+                    <Button title={"Adicionar Item"} onPress={onClick}/>
                 </View>
             </View>
         )
     }
 
     return (
-        <View>
-            <FlatList data={pizzarias_data} renderItem={render_list_item}/>
-        </View>
+        <FlatList data={pizzarias_data} renderItem={render_list_item}/>
     )
 }
+
+const styles = StyleSheet.create({
+    card: {
+        paddingHorizontal: 24,
+        paddingVertical: 12,
+        backgroundColor: "#3c77f5",
+        borderWidth: 1,
+        borderColor: "#3c77f5",
+        borderRadius: "10px",
+        display: "flex",
+        flexDirection: "column",
+        marginHorizontal: 24,
+        marginVertical: 4,
+    }
+})
